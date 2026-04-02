@@ -44,20 +44,20 @@ function TrovexLogo({ scrolled }: { scrolled: boolean }) {
 // <div className="p3-mono relative isolate flex ...">
 
 /* ─── Corner Accents (WQF SVG Pattern) ─── */
-function CornerAccents({ color = 'currentColor' }: { color?: string }) {
+function CornerAccents({ color = 'currentColor', size = 30 }: { color?: string; size?: number }) {
   return (
     <>
-      <svg className="absolute -top-px -left-px size-[30px]" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ color }}>
-        <path d="M30 1H1V30" stroke="currentColor" />
+      <svg className="absolute -top-px -left-px" width={size} height={size} viewBox={`0 0 ${size} ${size}`} fill="none" xmlns="http://www.w3.org/2000/svg" style={{ color }}>
+        <path d={`M${size} 1H1V${size}`} stroke="currentColor" />
       </svg>
-      <svg className="absolute -top-px -right-px size-[30px] rotate-90" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ color }}>
-        <path d="M30 1H1V30" stroke="currentColor" />
+      <svg className="absolute -top-px -right-px rotate-90" width={size} height={size} viewBox={`0 0 ${size} ${size}`} fill="none" xmlns="http://www.w3.org/2000/svg" style={{ color }}>
+        <path d={`M${size} 1H1V${size}`} stroke="currentColor" />
       </svg>
-      <svg className="absolute -bottom-px -left-px size-[30px] -rotate-90" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ color }}>
-        <path d="M30 1H1V30" stroke="currentColor" />
+      <svg className="absolute -bottom-px -left-px -rotate-90" width={size} height={size} viewBox={`0 0 ${size} ${size}`} fill="none" xmlns="http://www.w3.org/2000/svg" style={{ color }}>
+        <path d={`M${size} 1H1V${size}`} stroke="currentColor" />
       </svg>
-      <svg className="absolute -bottom-px -right-px size-[30px] rotate-180" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ color }}>
-        <path d="M30 1H1V30" stroke="currentColor" />
+      <svg className="absolute -bottom-px -right-px rotate-180" width={size} height={size} viewBox={`0 0 ${size} ${size}`} fill="none" xmlns="http://www.w3.org/2000/svg" style={{ color }}>
+        <path d={`M${size} 1H1V${size}`} stroke="currentColor" />
       </svg>
     </>
   )
@@ -67,7 +67,7 @@ function CornerAccents({ color = 'currentColor' }: { color?: string }) {
 /* ─── WQF Button ─── */
 function WQFButton({ label, href, theme = 'dark', onClick }: { label: string; href?: string; theme?: 'dark' | 'light'; onClick?: () => void }) {
   const textColor = theme === 'light' ? 'var(--color-rich-carbon)' : 'var(--color-off-white)'
-  const accentColor = theme === 'light' ? 'rgba(17,17,17,0.1)' : 'rgba(231,231,231,0.1)'
+  const accentColor = theme === 'light' ? 'rgba(17,17,17,0.4)' : 'rgba(231,231,231,0.4)'
 
   const inner = (
     <div className="group/button relative isolate overflow-hidden" style={{ cursor: 'pointer' }}>
@@ -82,7 +82,7 @@ function WQFButton({ label, href, theme = 'dark', onClick }: { label: string; hr
         </div>
       </div>
       <div className="absolute inset-0 pointer-events-none">
-        <CornerAccents color={accentColor} />
+        <CornerAccents color={accentColor} size={14} />
       </div>
     </div>
   )
@@ -263,53 +263,54 @@ export function Landing() {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ delay: 1.0 })
+      const tl = gsap.timeline({ delay: 0.4 })
 
-      // Phase 1: Institutional Word-Level Bloom (Restored v20)
+      // Phase 1: Institutional Word-Level Bloom
       const leftGroup = ['#hero-w-turning', '#hero-w-collection', '#hero-w-liquid']
       const rightGroup = ['#hero-w-every', '#hero-w-into', '#hero-w-value']
 
-      // Reset to master center for Z-Depth Bloom
+      // Reset everything to hidden/centered initially (Phase 0)
       gsap.set([...leftGroup, ...rightGroup], { left: "50%", y: 0, opacity: 0, scale: 0.8, filter: "blur(15px)" })
+      gsap.set(['#main-header', '#hero-footer', '#ethos'], { autoAlpha: 0, y: 0 })
 
-      // Restoration of user's personal manual cluster offsets
-      tl.to('#hero-w-turning', { xPercent: -90, x: "-0.2em", scale: 1, filter: "blur(0px)", opacity: 1, duration: 5.0, ease: 'power2.out' }, "+=0.1")
-      tl.to('#hero-w-every', { xPercent: 20, x: "0.2em", scale: 1, filter: "blur(0px)", opacity: 1, duration: 5.0, ease: 'power2.out' }, "<")
-      tl.to('#hero-w-collection', { xPercent: -75, x: "-0.2em", scale: 1, filter: "blur(0px)", opacity: 1, duration: 5.0, ease: 'power2.out' }, "<")
-      tl.to('#hero-w-into', { xPercent: 80, x: "0.2em", scale: 1, filter: "blur(0px)", opacity: 1, duration: 5.0, ease: 'power2.out' }, "<")
-      tl.to('#hero-w-liquid', { xPercent: -100, x: "-0.2em", scale: 1, filter: "blur(0px)", opacity: 1, duration: 5.0, ease: 'power2.out' }, "<")
-      tl.to('#hero-w-value', { xPercent: 0, x: "0.2em", scale: 1, filter: "blur(0px)", opacity: 1, duration: 5.0, ease: 'power2.out' }, "<")
+      // Phase 1: Precision Word-Level Bloom (Centered State)
+      tl.to('#hero-w-turning', { xPercent: -85, x: "-0.2em", scale: 1, filter: "blur(0px)", opacity: 1, duration: 1.2, ease: 'power2.out' }, "+=0.1")
+      tl.to('#hero-w-every', { xPercent: 15, x: "0.2em", scale: 1, filter: "blur(0px)", opacity: 1, duration: 1.2, ease: 'power2.out' }, "<")
+      tl.to('#hero-w-collection', { xPercent: -70, x: "-0.2em", scale: 1, filter: "blur(0px)", opacity: 1, duration: 1.2, ease: 'power2.out' }, "<")
+      tl.to('#hero-w-into', { xPercent: 75, x: "0.2em", scale: 1, filter: "blur(0px)", opacity: 1, duration: 1.2, ease: 'power2.out' }, "<")
+      tl.to('#hero-w-liquid', { xPercent: -95, x: "-0.2em", scale: 1, filter: "blur(0px)", opacity: 1, duration: 1.2, ease: 'power2.out' }, "<")
+      tl.to('#hero-w-value', { xPercent: -5, x: "0.2em", scale: 1, filter: "blur(0px)", opacity: 1, duration: 1.2, ease: 'power2.out' }, "<")
 
-      // Phase 3: Restoration of user's personal manual corner coordinates
+      // Phase 3: Synchronized Reveal (Split + UI + Lower Page)
+      // Use a label to synchronize all global UI reveals (Zero delay for fluid transition)
+      tl.addLabel("reveal", "+=0.0")
+
+      // 1. Desktop-Only: Move Words to Corners
       if (window.innerWidth > 1024) {
         const glideDuration = 3.5
         const glideEase = 'expo.inOut'
 
-        tl.to('#hero-w-turning', { left: "26vw", y: "-26vh", duration: glideDuration, ease: glideEase }, "+=1.0")
-        tl.to('#hero-w-every', { left: "24.5vw", y: "-26vh", duration: glideDuration, ease: glideEase }, "<")
-        tl.to('#hero-w-collection', { left: "30vw", y: "-26vh", duration: glideDuration, ease: glideEase }, "<")
-
-        tl.to('#hero-w-into', { left: "49.2vw", y: "15vh", duration: glideDuration, ease: glideEase }, "<")
-        tl.to('#hero-w-liquid', { left: "80vw", y: "15vh", duration: glideDuration, ease: glideEase }, "<")
-        tl.to('#hero-w-value', { left: "79vw", y: "15vh", duration: glideDuration, ease: glideEase }, "<")
+        tl.to('#hero-w-turning', { left: "24vw", y: "-26vh", duration: glideDuration, ease: glideEase }, "reveal")
+        tl.to('#hero-w-every', { left: "24.5vw", y: "-26vh", duration: glideDuration, ease: glideEase }, "reveal")
+        tl.to('#hero-w-collection', { left: "28vw", y: "-26vh", duration: glideDuration, ease: glideEase }, "reveal")
+        tl.to('#hero-w-into', { left: "73vw", y: "15vh", duration: glideDuration, ease: glideEase }, "reveal")
+        tl.to('#hero-w-liquid', { left: "78vw", y: "15vh", duration: glideDuration, ease: glideEase }, "reveal")
+        tl.to('#hero-w-value', { left: "78vw", y: "15vh", duration: glideDuration, ease: glideEase }, "reveal")
       }
 
-      // Phase 4: Reveal Footer
-      const footer = document.getElementById('hero-footer')
-      if (footer) {
-        tl.to(footer, {
-          autoAlpha: 1,
-          y: 0,
-          duration: 1.5,
-          ease: 'power3.out'
-        }, '-=1.2')
-      }
+      // 2. Global: The Integrated 'Light Up' (Always runs on all devices, fully synchronized v29)
+      const uiDuration = 3.5
+      const uiEase = 'expo.inOut'
+
+      tl.to('#main-header', { autoAlpha: 1, y: 0, pointerEvents: "auto", duration: uiDuration, ease: uiEase }, "reveal")
+      tl.to('#hero-footer', { autoAlpha: 1, y: 0, duration: uiDuration, ease: uiEase }, "reveal")
+      tl.to('#ethos', { autoAlpha: 1, y: 0, duration: uiDuration, ease: uiEase }, "reveal")
     }, heroRef)
     return () => ctx.revert()
   }, [])
 
   return (
-    <div className="bg-core-black text-white font-display antialiased leading-relaxed">
+    <div ref={heroRef} className="bg-core-black text-white font-display antialiased leading-relaxed">
       <WQFCursors />
 
       {/* ════════════════════════════════════════════
@@ -371,7 +372,7 @@ export function Landing() {
       {/* ════════════════════════════════════════════
           Trovex Island Header (Component 01 Refined)
           ════════════════════════════════════════════ */}
-      <header className={`fixed top-0 left-0 z-50 w-full flex justify-center transition-transform duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] ${headerState.hidden ? '-translate-y-full' : 'translate-y-0'}`}>
+      <header id="main-header" className={`fixed top-0 left-0 z-50 w-full flex justify-center transition-transform duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] ${headerState.hidden ? '-translate-y-full' : 'translate-y-0'}`}>
         <div className={`flex items-center transition-all duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] relative
           ${headerState.scrolled
             ? 'mt-4 h-[48px] rounded-[8px] px-[12px] py-[4px] bg-white/10 backdrop-blur-[25px] w-fit shadow-2xl grow-0'
@@ -429,7 +430,7 @@ export function Landing() {
           />
         </div>
 
-        <div ref={heroRef} className="relative z-10 w-full h-full flex flex-col justify-center py-0">
+        <div className="relative z-10 w-full h-full flex flex-col justify-center py-0">
           {/* Absolute Anchor Refactor v15: Screenshot Match Final */}
           <h1 className="h1-hero relative w-full h-[60vh] flex items-center justify-center uppercase leading-[0.9] tracking-tighter">
             <div className="relative w-full h-full flex items-center justify-center">
