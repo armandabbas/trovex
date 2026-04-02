@@ -290,12 +290,12 @@ export function Landing() {
         const glideDuration = 3.5
         const glideEase = 'expo.inOut'
 
-        tl.to('#hero-w-turning', { left: "24vw", y: "-26vh", duration: glideDuration, ease: glideEase }, "reveal")
-        tl.to('#hero-w-every', { left: "24.5vw", y: "-26vh", duration: glideDuration, ease: glideEase }, "reveal")
-        tl.to('#hero-w-collection', { left: "28vw", y: "-26vh", duration: glideDuration, ease: glideEase }, "reveal")
+        tl.to('#hero-w-turning', { left: "26vw", y: "-26vh", duration: glideDuration, ease: glideEase }, "reveal")
+        tl.to('#hero-w-every', { left: "27.5vw", y: "-26vh", duration: glideDuration, ease: glideEase }, "reveal")
+        tl.to('#hero-w-collection', { left: "29.5vw", y: "-26vh", duration: glideDuration, ease: glideEase }, "reveal")
         tl.to('#hero-w-into', { left: "73vw", y: "15vh", duration: glideDuration, ease: glideEase }, "reveal")
         tl.to('#hero-w-liquid', { left: "78vw", y: "15vh", duration: glideDuration, ease: glideEase }, "reveal")
-        tl.to('#hero-w-value', { left: "78vw", y: "15vh", duration: glideDuration, ease: glideEase }, "reveal")
+        tl.to('#hero-w-value', { left: "79vw", y: "15vh", duration: glideDuration, ease: glideEase }, "reveal")
       }
 
       // 2. Global: The Integrated 'Light Up' (Always runs on all devices, fully synchronized v29)
@@ -465,7 +465,7 @@ export function Landing() {
                   </p>
                 </div>
 
-                <div className="shrink-0 text-white opacity-40 hover:opacity-100 transition-opacity hidden md:block">
+                <div className="shrink-0 text-white opacity-100 transition-opacity hidden md:block">
                   <svg width="60" height="53" viewBox="0 0 350 310" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g fill="currentColor">
                       <path d="M 162 70 L 220 70 L 220 70 L 220 268 A 32 32 0 0 1 188 300 L 162 300 A 32 32 0 0 1 130 268 L 130 102 A 32 32 0 0 1 162 70 Z" />
