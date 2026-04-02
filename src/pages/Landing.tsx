@@ -287,9 +287,9 @@ export function Landing() {
 
         tl.to('#hero-w-turning', { left: "26vw", y: "-26vh", duration: glideDuration, ease: glideEase }, "+=1.0")
         tl.to('#hero-w-every', { left: "24.5vw", y: "-26vh", duration: glideDuration, ease: glideEase }, "<")
-        tl.to('#hero-w-collection', { left: "30vw", y: "-23.5vh", duration: glideDuration, ease: glideEase }, "<")
+        tl.to('#hero-w-collection', { left: "30vw", y: "-26vh", duration: glideDuration, ease: glideEase }, "<")
 
-        tl.to('#hero-w-into', { left: "48.65vw", y: "15vh", duration: glideDuration, ease: glideEase }, "<")
+        tl.to('#hero-w-into', { left: "49.2vw", y: "15vh", duration: glideDuration, ease: glideEase }, "<")
         tl.to('#hero-w-liquid', { left: "80vw", y: "15vh", duration: glideDuration, ease: glideEase }, "<")
         tl.to('#hero-w-value', { left: "79vw", y: "15vh", duration: glideDuration, ease: glideEase }, "<")
       }
@@ -411,19 +411,19 @@ export function Landing() {
       <section id="hero-trigger" className="relative h-dvh w-full overflow-hidden" style={{ background: 'var(--color-core-black)' }}>
         <div className="absolute inset-0 z-0 opacity-80">
           <Antigravity
-            count={1000}
-            magnetRadius={4}
-            ringRadius={4}
+            count={5000}
+            magnetRadius={1}
+            ringRadius={2}
             waveSpeed={0.04}
             waveAmplitude={0.3}
-            particleSize={0.2}
+            particleSize={0.1}
             lerpSpeed={0.008}
-            color="#ff8b25"
+            color="hsla(256, 100%, 94%, 0.11)"
             autoAnimate={true}
-            particleVariance={3}
-            rotationSpeed={0.0}
-            depthFactor={8}
-            pulseSpeed={0.1}
+            particleVariance={1}
+            rotationSpeed={1.0}
+            depthFactor={10}
+            pulseSpeed={0.01}
             particleShape="sphere"
             fieldStrength={20}
           />
