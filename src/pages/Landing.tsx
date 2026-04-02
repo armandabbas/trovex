@@ -114,15 +114,32 @@ function SectionHeader({ label, heading, description, theme = 'dark' }: { label:
 function WQFCursors() {
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 })
   const [type, setType] = useState<'default' | 'drag' | 'view'>('default')
+  const idleTimeoutRef = useRef<number | null>(null)
 
   useEffect(() => {
     setCursorTypeGlobal = setType
   }, [])
 
   useEffect(() => {
-    const onMove = (e: MouseEvent) => setCursorPos({ x: e.clientX, y: e.clientY })
+    const returnToCenter = () => {
+      setCursorPos({ x: window.innerWidth / 2, y: window.innerHeight / 2 })
+    }
+
+    // Initialize to center
+    returnToCenter()
+
+    const onMove = (e: MouseEvent) => {
+      setCursorPos({ x: e.clientX, y: e.clientY })
+
+      if (idleTimeoutRef.current) clearTimeout(idleTimeoutRef.current)
+      idleTimeoutRef.current = setTimeout(returnToCenter, 2000)
+    }
+
     window.addEventListener('mousemove', onMove)
-    return () => window.removeEventListener('mousemove', onMove)
+    return () => {
+      window.removeEventListener('mousemove', onMove)
+      if (idleTimeoutRef.current) clearTimeout(idleTimeoutRef.current)
+    }
   }, [])
 
   const isVisible = type !== 'default'
@@ -248,44 +265,43 @@ export function Landing() {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ delay: 1.0 })
 
-      // Phase 1: Total Reset Bloom (Centered for v15)
+      // Phase 1: Institutional Word-Level Bloom (Restored v20)
       const leftGroup = ['#hero-w-turning', '#hero-w-collection', '#hero-w-liquid']
       const rightGroup = ['#hero-w-every', '#hero-w-into', '#hero-w-value']
 
-      // Reset to master center for split-origin Bloom
-      gsap.set([...leftGroup, ...rightGroup], { left: "50%", y: "100%", opacity: 0 })
+      // Reset to master center for Z-Depth Bloom
+      gsap.set([...leftGroup, ...rightGroup], { left: "50%", y: 0, opacity: 0, scale: 0.8, filter: "blur(15px)" })
 
-      tl.to(leftGroup, {
-        xPercent: -100, x: "-0.2em", y: 0, opacity: 1, duration: 2.0, ease: 'power3.out', stagger: 0.1
-      })
-      tl.to(rightGroup, {
-        xPercent: 0, x: "0.2em", y: 0, opacity: 1, duration: 2.0, ease: 'power3.out', stagger: 0.1
-      }, "<")
+      // Restoration of user's personal manual cluster offsets
+      tl.to('#hero-w-turning', { xPercent: -90, x: "-0.2em", scale: 1, filter: "blur(0px)", opacity: 1, duration: 5.0, ease: 'power2.out' }, "+=0.1")
+      tl.to('#hero-w-every', { xPercent: 20, x: "0.2em", scale: 1, filter: "blur(0px)", opacity: 1, duration: 5.0, ease: 'power2.out' }, "<")
+      tl.to('#hero-w-collection', { xPercent: -75, x: "-0.2em", scale: 1, filter: "blur(0px)", opacity: 1, duration: 5.0, ease: 'power2.out' }, "<")
+      tl.to('#hero-w-into', { xPercent: 80, x: "0.2em", scale: 1, filter: "blur(0px)", opacity: 1, duration: 5.0, ease: 'power2.out' }, "<")
+      tl.to('#hero-w-liquid', { xPercent: -100, x: "-0.2em", scale: 1, filter: "blur(0px)", opacity: 1, duration: 5.0, ease: 'power2.out' }, "<")
+      tl.to('#hero-w-value', { xPercent: 0, x: "0.2em", scale: 1, filter: "blur(0px)", opacity: 1, duration: 5.0, ease: 'power2.out' }, "<")
 
-      // Phase 3: Absolute Precision Split v15 (Screenshot Parity)
+      // Phase 3: Restoration of user's personal manual corner coordinates
       if (window.innerWidth > 1024) {
         const glideDuration = 3.5
         const glideEase = 'expo.inOut'
 
-        // TL Cluster: Synchronized to 8vw (Flush-Left Screenshot Parity)
-        tl.to('#hero-w-turning', { left: "8vw", xPercent: 0, x: 0, y: "-26vh", duration: glideDuration, ease: glideEase }, "+=1.0")
-        tl.to('#hero-w-every', { left: "27vw", xPercent: 0, x: 0, y: "-26vh", duration: glideDuration, ease: glideEase }, "<")
-        tl.to('#hero-w-collection', { left: "8vw", xPercent: 0, x: 0, y: "-23.5vh", duration: glideDuration, ease: glideEase }, "<")
+        tl.to('#hero-w-turning', { left: "26vw", y: "-26vh", duration: glideDuration, ease: glideEase }, "+=1.0")
+        tl.to('#hero-w-every', { left: "24.5vw", y: "-26vh", duration: glideDuration, ease: glideEase }, "<")
+        tl.to('#hero-w-collection', { left: "30vw", y: "-23.5vh", duration: glideDuration, ease: glideEase }, "<")
 
-        // BR Cluster: Synchronized to 54vw (Balanced Flush-Left)
-        tl.to('#hero-w-into', { left: "54vw", xPercent: 0, x: 0, y: "18vh", duration: glideDuration, ease: glideEase }, "<")
-        tl.to('#hero-w-liquid', { left: "54vw", xPercent: 0, x: 0, y: "20.5vh", duration: glideDuration, ease: glideEase }, "<")
-        tl.to('#hero-w-value', { left: "82vw", xPercent: 0, x: 0, y: "20.5vh", duration: glideDuration, ease: glideEase }, "<")
+        tl.to('#hero-w-into', { left: "48.65vw", y: "15vh", duration: glideDuration, ease: glideEase }, "<")
+        tl.to('#hero-w-liquid', { left: "80vw", y: "15vh", duration: glideDuration, ease: glideEase }, "<")
+        tl.to('#hero-w-value', { left: "79vw", y: "15vh", duration: glideDuration, ease: glideEase }, "<")
       }
 
       // Phase 4: Reveal Footer
       const footer = document.getElementById('hero-footer')
       if (footer) {
-        tl.to(footer, { 
-          autoAlpha: 1, 
-          y: 0, 
-          duration: 1.5, 
-          ease: 'power3.out' 
+        tl.to(footer, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 1.5,
+          ease: 'power3.out'
         }, '-=1.2')
       }
     }, heroRef)
@@ -361,7 +377,7 @@ export function Landing() {
             ? 'mt-4 h-[48px] rounded-[8px] px-[12px] py-[4px] bg-white/10 backdrop-blur-[25px] w-fit shadow-2xl grow-0'
             : 'w-full h-[var(--header-height)] px-[24px] md:px-[40px] bg-transparent grow'
           }`}>
-          
+
           <div className="flex items-center w-full relative">
             <TrovexLogo scrolled={headerState.scrolled} />
 
@@ -400,13 +416,13 @@ export function Landing() {
             ringRadius={4}
             waveSpeed={0.04}
             waveAmplitude={0.3}
-            particleSize={0.4}
+            particleSize={0.2}
             lerpSpeed={0.008}
-            color="#ffffff"
+            color="#ff8b25"
             autoAnimate={true}
-            particleVariance={1.2}
+            particleVariance={3}
             rotationSpeed={0.0}
-            depthFactor={10}
+            depthFactor={8}
             pulseSpeed={0.1}
             particleShape="sphere"
             fieldStrength={20}
