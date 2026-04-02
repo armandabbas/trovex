@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Inter", system-ui, sans-serif;
+  --font-mono: "Azeret Mono", monospace;
+  
+  --color-core-black: #000000;
+  --color-rich-carbon: #0a0a0a;
+  --color-urban-smoke: #111111;
+  --color-neural-fog: #999999;
+  --color-off-white: #ffffff;
+  --color-pulse-ash: #404040;
+  --color-infrared: #ed6d40;
+  
+  --easing: cubic-bezier(0.2, 0, 0, 1);
+  --header-height: 80px;
+
+  --breakpoint-xs: 480px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+}
+
+
+/* ─── Global Resets & WQF Defaults ─── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    background-color: var(--color-core-black);
+    color: var(--color-off-white);
+  }
+
+  body {
+    @apply bg-core-black text-white font-display antialiased selection:bg-infrared selection:text-black;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, .heading {
+    @apply font-medium uppercase leading-[1.05] tracking-tight;
+  }
+}
+
+@layer utilities {
+  .container {
+    @apply mx-auto px-[24px] md:px-[40px] max-w-[1440px] w-full;
+  }
+
+  /* WQF Typography Scales (Section 2) */
+  .h1-hero { 
+    font-size: clamp(1.5rem, 4.5vw, 4.5rem); 
+    font-weight: 600; 
+    line-height: 1; 
+    letter-spacing: -0.02em;
+    @apply break-words uppercase;
+  }
+  .h2-section { font-size: clamp(2rem, 5vw, 4rem); font-weight: 500; line-height: 1.1; }
+  .h3-card { font-size: clamp(1.25rem, 2.5vw, 1.875rem); font-weight: 500; line-height: 1.2; }
+  
+  .p-body { font-size: 1.125rem; line-height: 1.5; font-weight: 300; }
+  .p-hero-footer { font-size: 0.65rem; line-height: 1.4; font-family: var(--font-mono); font-weight: 500; letter-spacing: 0.05em; @apply uppercase; }
+  
+  .label-mono {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-neural-fog);
+  }
+
+  /* Spacing System (Section 2.3) */
+  .section-padding { padding-top: clamp(80px, 10vw, 160px); padding-bottom: clamp(80px, 10vw, 160px); }
+  
+  /* Animations (Section 3) */
+  .fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s var(--easing-wqf), transform 0.8s var(--easing-wqf);
+  }
+  .fade-in-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* Dividers */
+  .divider-wqf { @apply w-full h-px bg-white/[0.08]; }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-core-black); }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #444; }
