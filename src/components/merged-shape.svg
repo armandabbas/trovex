@@ -1,0 +1,9 @@
+<svg width="350" height="310" viewBox="0 0 350 310" xmlns="http://www.w3.org/2000/svg">
+  <g fill="#ffffff" stroke="none" stroke-width="0">
+    <path d="M 162 70 L 220 70 L 220 70 L 220 268 A 32 32 0 0 1 188 300 L 162 300 A 32 32 0 0 1 130 268 L 130 102 A 32 32 0 0 1 162 70 Z" />
+    <path d="M 252 10 L 308 10 A 32 32 0 0 1 340 42 L 340 68 A 32 32 0 0 1 308 100 L 220 100 L 220 100 L 220 42 A 32 32 0 0 1 252 10 Z" />
+    <path d="M 42 10 L 88 10 A 32 32 0 0 1 120 42 L 120 68 A 32 32 0 0 1 88 100 L 42 100 A 32 32 0 0 1 10 68 L 10 42 A 32 32 0 0 1 42 10 Z" />
+    <path d="M 0 0 C 0 -23.872 5.76 -32 32 -32 H 0 Z" transform="translate(220, 132)" />
+    <path d="M 0 0 C 0 23.872 -5.76 32 -32 32 H 0 Z" transform="translate(220, 38)" />
+  </g>
+</svg>

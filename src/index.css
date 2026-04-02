@@ -1,8 +1,10 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Zetta:wght@400;500;600&display=swap');
 
 @theme {
   --font-display: "Inter", system-ui, sans-serif;
   --font-mono: "Azeret Mono", monospace;
+  --font-logo: "Lexend Zetta", sans-serif;
   
   --color-core-black: #000000;
   --color-rich-carbon: #0a0a0a;
@@ -50,10 +52,10 @@
 
   /* WQF Typography Scales (Section 2) */
   .h1-hero { 
-    font-size: clamp(1.5rem, 4.5vw, 4.5rem); 
+    font-size: clamp(2.5rem, 6vw, 7rem); 
     font-weight: 600; 
-    line-height: 1; 
-    letter-spacing: -0.02em;
+    line-height: 0.88; 
+    letter-spacing: -0.05em;
     @apply break-words uppercase;
   }
   .h2-section { font-size: clamp(2rem, 5vw, 4rem); font-weight: 500; line-height: 1.1; }
@@ -61,6 +63,10 @@
   
   .p-body { font-size: 1.125rem; line-height: 1.5; font-weight: 300; }
   .p-hero-footer { font-size: 0.65rem; line-height: 1.4; font-family: var(--font-mono); font-weight: 500; letter-spacing: 0.05em; @apply uppercase; }
+  
+  .p1-mono { font-family: var(--font-mono); font-size: 1rem; letter-spacing: 0.05em; text-transform: uppercase; }
+  .p2-mono { font-family: var(--font-mono); font-size: 0.875rem; letter-spacing: 0.05em; text-transform: uppercase; }
+  .p3-mono { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
   
   .label-mono {
     font-family: var(--font-mono);

@@ -1,51 +1,63 @@
 import { Link } from 'react-router-dom'
 import { useEffect, useRef, useState, useLayoutEffect, type CSSProperties } from 'react'
+import Antigravity from '../components/Antigravity'
 import { gsap } from 'gsap'
 
 /* ─── Global State for Cursors ─── */
-let setCursorTypeGlobal: (type: 'default' | 'drag' | 'view') => void = () => {}
+let setCursorTypeGlobal: (type: 'default' | 'drag' | 'view') => void = () => { }
 
 /* ─── Trovex Logo Component (WQF Translation Pattern) ─── */
 function TrovexLogo({ scrolled }: { scrolled: boolean }) {
   return (
-    <Link to="/" className="relative isolate h-[30px] w-[120px] shrink-0 overflow-hidden transition-[width] duration-600 ease-[var(--easing)] group-[.scrolled]:w-[30px]" aria-label="Trovex">
-      {/* Full Logo (Hides on scroll) */}
-      <svg className={`w-full h-auto transition-transform duration-600 ease-[var(--easing)] ${scrolled ? '-translate-y-full' : 'translate-y-0'}`} width="120" height="29" viewBox="0 0 120 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g fill="currentColor">
-          <path d="M-0.000183105 0.169922H1.50134L4.4145 9.33658H4.46208L7.24835 0.286492H8.68114L11.4304 9.33658H11.478L14.3964 0.169922H15.7975L12.1653 11.154H10.6638L7.94624 2.32117H7.89866L5.13353 11.154H3.61615L-0.000183105 0.169922Z"/>
-          <path d="M19.5565 10.6185C18.7105 10.1522 18.0497 9.48457 17.5633 8.6209C17.0768 7.75722 16.8389 6.75577 16.8389 5.60597C16.8389 4.45616 17.0821 3.49181 17.5633 2.64402C18.0444 1.79094 18.7105 1.13921 19.5565 0.683525C20.4024 0.227842 21.3382 0 22.3745 0C23.4107 0 24.3465 0.227842 25.1925 0.683525C26.0384 1.13921 26.6993 1.79624 27.1857 2.64402C27.6668 3.49711 27.91 4.48265 27.91 5.60597C27.91 6.72928 27.6668 7.75722 27.1857 8.6209C26.7045 9.48457 26.0384 10.1469 25.1925 10.6185C24.3465 11.0848 23.4107 11.3179 22.3745 11.3179C21.3382 11.3179 20.4024 11.0848 19.5565 10.6185Z"/>
-          <path d="M30.4057 0.169922H34.9526C35.8514 0.169922 36.6127 0.297089 37.226 0.546126C37.8446 0.795162 38.3045 1.15547 38.6112 1.62175C38.9178 2.08803 39.0712 2.64439 39.0712 3.29082"/>
-          <path d="M41.6986 0.169922H43.0997V9.88764H48.8625V11.154H41.6986V0.169922Z"/>
-          <path d="M50.9617 0.169922H54.9587C56.0796 0.169922 57.0524 0.392465 57.8719 0.826954C58.6914 1.26674 59.3258 1.89728 59.7646 2.72387"/>
-          <path d="M65.1362 10.6185C64.2903 10.1522 63.6294 9.48457 63.143 8.62089"/>
-          <path d="M78.0841 10.7937C77.3862 10.444 76.847 9.95122 76.4663 9.31538V0.169922H77.3016"/>
-        </g>
-      </svg>
-      {/* Icon (Shows on scroll) */}
-      <svg className={`absolute top-0 left-0 w-[30px] h-auto transition-transform duration-600 ease-[var(--easing)] ${scrolled ? 'translate-y-0' : 'translate-y-full'}`} width="65" height="65" viewBox="0 0 65 65" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M39.13 43.55C39.13 41.0371 41.1671 39 43.68 39H47.45C49.9629 39 52 36.9629 52 34.45L52 4.55C52 2.03711 54.0371 0 56.55 0L60.45 0C62.9629 0 65 2.03711 65 4.55001V34.45C65 36.9629 62.9629 39 60.45 39H56.68C54.1671 39 52.13 41.0371 52.13 43.55L52.13 60.45C52.13 62.9629 50.0929 65 47.58 65L43.68 65C41.1671 65 39.13 62.9629 39.13 60.45L39.13 43.55Z" fill="currentColor"/>
-        <path d="M13.13 43.55C13.13 41.0371 15.1671 39 17.68 39H21.45C23.9629 39 26 36.9629 26 34.45L26 4.55C26 2.03711 28.0371 0 30.55 0L34.45 0C36.9629 0 39 2.03711 39 4.55L39 34.45C39 36.9629 36.9629 39 34.45 39H30.68C28.1671 39 26.13 41.0371 26.13 43.55L26.13 60.45C26.13 62.9629 24.0929 65 21.58 65H17.68C15.1671 65 13.13 62.9629 13.13 60.45L13.13 43.55Z" fill="currentColor"/>
-        <path d="M0 4.55C0 2.0371 2.03711 0 4.55 0L8.45 0C10.9629 0 13 2.0371 13 4.55V21.45C13 23.9629 10.9629 26 8.45 26H4.55C2.0371 26 0 23.9629 0 21.45L0 4.55Z" fill="currentColor"/>
-      </svg>
+    <Link to="/" className={`relative h-[30px] shrink-0 overflow-hidden transition-[width] duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] ${scrolled ? 'w-[30px]' : 'w-[120px]'}`} aria-label="Trovex">
+      <div className={`flex flex-col transition-transform duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] ${scrolled ? '-translate-y-[30px]' : 'translate-y-0'}`}>
+        {/* State 1: 2-Line Text */}
+        <div className={`h-[30px] flex flex-col justify-center items-start w-fit transition-opacity duration-300 ${scrolled ? 'opacity-0' : 'opacity-100'}`}>
+          <span className="text-[1.25rem] font-[var(--font-logo)] font-bold uppercase tracking-tight text-white leading-none">Trovex</span>
+          <div className="w-full flex justify-between text-[0.45rem] font-[var(--font-logo)] font-normal uppercase text-neural-fog leading-none mt-[2px] tracking-normal">
+            {'COLLECTIBLES'.split('').map((char, i) => (
+              <span key={i} className="leading-none">{char}</span>
+            ))}
+          </div>
+        </div>
+        {/* State 2: Icon */}
+        <div className="h-[30px] flex items-center">
+          <svg width="22" height="19" viewBox="0 0 350 310" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
+            <g fill="currentColor">
+              <path d="M 162 70 L 220 70 L 220 70 L 220 268 A 32 32 0 0 1 188 300 L 162 300 A 32 32 0 0 1 130 268 L 130 102 A 32 32 0 0 1 162 70 Z" />
+              <path d="M 252 10 L 308 10 A 32 32 0 0 1 340 42 L 340 68 A 32 32 0 0 1 308 100 L 220 100 L 220 100 L 220 42 A 32 32 0 0 1 252 10 Z" />
+              <path d="M 42 10 L 88 10 A 32 32 0 0 1 120 42 L 120 68 A 32 32 0 0 1 88 100 L 42 100 A 32 32 0 0 1 10 68 L 10 42 A 32 32 0 0 1 42 10 Z" />
+              <path d="M 0 0 C 0 -23.872 5.76 -32 32 -32 H 0 Z" transform="translate(220, 132)" />
+              <path d="M 0 0 C 0 23.872 -5.76 32 -32 32 H 0 Z" transform="translate(220, 38)" />
+            </g>
+          </svg>
+        </div>
+      </div>
     </Link>
   )
 }
+
+/* ─── Header Navigation Links ─── */
+// (Skipping to the header section for link update)
+
+// In the header component:
+// <div className="p3-mono relative isolate flex ...">
 
 /* ─── Corner Accents (WQF SVG Pattern) ─── */
 function CornerAccents({ color = 'currentColor' }: { color?: string }) {
   return (
     <>
       <svg className="absolute -top-px -left-px size-[30px]" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ color }}>
-        <path d="M30 1H1V30" stroke="currentColor"/>
+        <path d="M30 1H1V30" stroke="currentColor" />
       </svg>
       <svg className="absolute -top-px -right-px size-[30px] rotate-90" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ color }}>
-        <path d="M30 1H1V30" stroke="currentColor"/>
+        <path d="M30 1H1V30" stroke="currentColor" />
       </svg>
       <svg className="absolute -bottom-px -left-px size-[30px] -rotate-90" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ color }}>
-        <path d="M30 1H1V30" stroke="currentColor"/>
+        <path d="M30 1H1V30" stroke="currentColor" />
       </svg>
       <svg className="absolute -bottom-px -right-px size-[30px] rotate-180" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ color }}>
-        <path d="M30 1H1V30" stroke="currentColor"/>
+        <path d="M30 1H1V30" stroke="currentColor" />
       </svg>
     </>
   )
@@ -63,7 +75,7 @@ function WQFButton({ label, href, theme = 'dark', onClick }: { label: string; hr
         <div className="absolute left-[12px] size-[8px] rounded-[2px] opacity-0 blur-[8px] transition-all duration-400 group-hover/button:opacity-100 group-hover/button:blur-0 group-hover/button:-translate-x-[4px]"
           style={{ background: 'var(--color-infrared)', transform: 'translateX(-20px)', transitionTimingFunction: 'var(--easing)' }}
         />
-        <div className="relative flex overflow-hidden group-hover/button:translate-x-[6px] transition-transform duration-400" 
+        <div className="relative flex overflow-hidden group-hover/button:translate-x-[6px] transition-transform duration-400"
           style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 500, textTransform: 'uppercase' as const, letterSpacing: '0.08em', color: textColor, transitionTimingFunction: 'var(--easing)' }}>
           <span className="flex transition-transform duration-400 group-hover/button:-translate-y-full" style={{ transitionTimingFunction: 'var(--easing)' }}>{label}</span>
           <span className="absolute inset-0 flex transition-transform duration-400 translate-y-full group-hover/button:translate-y-0" aria-hidden="true" style={{ transitionTimingFunction: 'var(--easing)' }}>{label}</span>
@@ -103,7 +115,9 @@ function WQFCursors() {
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 })
   const [type, setType] = useState<'default' | 'drag' | 'view'>('default')
 
-  setCursorTypeGlobal = setType
+  useEffect(() => {
+    setCursorTypeGlobal = setType
+  }, [])
 
   useEffect(() => {
     const onMove = (e: MouseEvent) => setCursorPos({ x: e.clientX, y: e.clientY })
@@ -115,7 +129,7 @@ function WQFCursors() {
 
   return (
     <div className={`fixed top-0 left-0 z-[3000] pointer-events-none transition-all duration-500 ease-[var(--easing)] ${isVisible ? 'opacity-100' : 'opacity-0'}`}
-      style={{ 
+      style={{
         transform: `translate3d(${cursorPos.x}px, ${cursorPos.y}px, 0) translate3d(-50%, -50%, 0)`,
       }}>
       <div className={`relative isolate flex items-center justify-center overflow-hidden rounded-full transition-all duration-500 ease-[var(--easing)] ${type === 'view' ? 'size-[100px] bg-off-white text-rich-carbon' : 'size-[80px] bg-rich-carbon text-off-white border border-white/20'}`}>
@@ -129,7 +143,7 @@ function WQFCursors() {
 }
 
 
-function useCursor(type: 'drag' | 'view') {
+function getCursorHandlers(type: 'drag' | 'view') {
   return {
     onMouseEnter: () => setCursorTypeGlobal(type),
     onMouseLeave: () => setCursorTypeGlobal('default'),
@@ -201,8 +215,6 @@ export function Landing() {
   const [expandedFocus, setExpandedFocus] = useState<string | null>(null)
   const lastScrollY = useRef(0)
   const heroRef = useRef<HTMLDivElement>(null)
-  const part1Ref = useRef<HTMLHeadingElement>(null)
-  const part2Ref = useRef<HTMLHeadingElement>(null)
   const portfolioScrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -211,10 +223,10 @@ export function Landing() {
       const delta = currentY - lastScrollY.current
       setHeaderState(prev => ({
         ...prev,
-        scrolled: currentY > 200,
-        hidden: currentY > 500 && delta > 50,
+        scrolled: currentY > 400,
+        hidden: currentY > 800 && delta > 100,
       }))
-      if (Math.abs(delta) > 50) lastScrollY.current = currentY
+      if (Math.abs(delta) > 100) lastScrollY.current = currentY
     }
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
@@ -234,8 +246,72 @@ export function Landing() {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ delay: 0.8 })
-      tl.fromTo([part1Ref.current, part2Ref.current], { opacity: 0, y: 60, filter: 'blur(20px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.5, stagger: 0.3, ease: 'expo.out' })
+      const tl = gsap.timeline({ delay: 1.0 })
+      
+      const p1Words = gsap.utils.toArray('.hero-word-p1')
+      const p2Words = gsap.utils.toArray('.hero-word-p2')
+      const allWords = [...p1Words, ...p2Words]
+
+      // Phase 1: Symmetric 3-Row Bloom (Collision-Free)
+      tl.to(allWords, {
+        y: 0,
+        opacity: 1,
+        duration: 2.0,
+        ease: 'power3.out',
+        stagger: 0.1
+      })
+
+      // Phase 3: Precision Modular Glide (Desktop Only)
+      if (window.innerWidth > 1024) {
+        const glideDuration = 3.5
+        const glideEase = 'expo.inOut'
+
+        // Cluster 1 (Left Group): TURNING EVERY & COLLECTION -> Flush Left
+        tl.to(['#hero-w-turning', '#hero-w-every'], {
+          x: "-24vw",
+          xPercent: 0,
+          y: "-18vh",
+          duration: glideDuration,
+          ease: glideEase
+        }, "+=1.0")
+
+        tl.to('#hero-w-collection', {
+          x: "-24vw",
+          xPercent: 0,
+          y: "-15.5vh", // Stacked Flush-Left under Line 1
+          duration: glideDuration,
+          ease: glideEase
+        }, "<")
+
+        // Cluster 2 (Right Group): INTO & LIQUID VALUE -> Flush Right
+        // We align their RIGHT EDGES (xPercent: -100) at 24vw from center
+        tl.to('#hero-w-into', {
+          x: "24vw",
+          xPercent: -100,
+          y: "19.5vh",
+          duration: glideDuration,
+          ease: glideEase
+        }, "<")
+
+        tl.to(['#hero-w-liquid', '#hero-w-value'], {
+          x: "24vw",
+          xPercent: -100,
+          y: "22vh", // Stacked Flush-Right under INTO
+          duration: glideDuration,
+          ease: glideEase
+        }, "<")
+      }
+
+      // Phase 4: Reveal Footer
+      const footer = document.getElementById('hero-footer')
+      if (footer) {
+        tl.to(footer, { 
+          autoAlpha: 1, 
+          y: 0, 
+          duration: 1.5, 
+          ease: 'power3.out' 
+        }, '-=1.2')
+      }
     }, heroRef)
     return () => ctx.revert()
   }, [])
@@ -251,18 +327,18 @@ export function Landing() {
         <div className={`bg-neural-fog text-rich-carbon relative isolate h-full w-full max-w-[700px] overflow-y-auto px-[16px] pt-[32px] md:rounded-r-[20px] md:p-[40px] transition-transform duration-400 ease-[var(--easing)] ${contactOpen ? 'translate-x-0' : '-translate-x-full'}`}>
           <button className="text-rich-carbon/60 hover:text-rich-carbon absolute top-[24px] right-[24px] transition-colors" onClick={() => setContactOpen(false)}>
             <svg className="size-[16px]" width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0 14.8696C0 14.1844 0.555 13.6289 1.241 13.6289L2.302 13.6289C2.988 13.6289 3.543 13.0734 3.543 12.3882V11.5024C3.543 10.8172 4.098 10.2617 4.784 10.2617L5.228 10.2617C5.913 10.2617 6.469 9.706 6.469 9.021V7.957C6.469 7.272 7.024 6.717 7.709 6.717H8.187C8.872 6.717 9.428 6.161 9.428 5.476V4.713C9.428 4.028 9.983 3.473 10.668 3.473H11.484C12.169 3.473 12.725 2.917 12.725 2.232V1.241C12.725 0.555 13.28 0 13.965 0H15.029C15.714 0 16.27 0.555 16.27 1.241V2.304C16.27 2.989 15.714 3.545 15.029 3.545H14.213C13.528 3.545 12.973 4.1 12.973 4.786V5.777C12.973 6.462 12.417 7.018 11.732 7.018H11.254C10.569 7.018 10.014 7.573 10.014 8.258V9.021C10.014 9.706 9.458 10.262 8.773 10.262H8.329C7.643 10.262 7.088 10.817 7.088 11.502V12.566C7.088 13.251 6.532 13.807 5.847 13.807H4.786C4.1 13.807 3.545 14.362 3.545 15.047V15.933C3.545 16.618 2.99 17.174 2.304 17.174H1.241C0.555 17.174 0 16.618 0 15.933V14.869z" fill="currentColor"/>
+              <path d="M0 14.8696C0 14.1844 0.555 13.6289 1.241 13.6289L2.302 13.6289C2.988 13.6289 3.543 13.0734 3.543 12.3882V11.5024C3.543 10.8172 4.098 10.2617 4.784 10.2617L5.228 10.2617C5.913 10.2617 6.469 9.706 6.469 9.021V7.957C6.469 7.272 7.024 6.717 7.709 6.717H8.187C8.872 6.717 9.428 6.161 9.428 5.476V4.713C9.428 4.028 9.983 3.473 10.668 3.473H11.484C12.169 3.473 12.725 2.917 12.725 2.232V1.241C12.725 0.555 13.28 0 13.965 0H15.029C15.714 0 16.27 0.555 16.27 1.241V2.304C16.27 2.989 15.714 3.545 15.029 3.545H14.213C13.528 3.545 12.973 4.1 12.973 4.786V5.777C12.973 6.462 12.417 7.018 11.732 7.018H11.254C10.569 7.018 10.014 7.573 10.014 8.258V9.021C10.014 9.706 9.458 10.262 8.773 10.262H8.329C7.643 10.262 7.088 11.502V12.566C7.088 13.251 6.532 13.807 5.847 13.807H4.786C4.1 13.807 3.545 14.362 3.545 15.047V15.933C3.545 16.618 2.99 17.174 2.304 17.174H1.241C0.555 17.174 0 16.618 0 15.933V14.869z" fill="currentColor" />
             </svg>
           </button>
-          
+
           <div className="flex h-full flex-col justify-between gap-[40px]">
             <h2 className="h2 flex flex-wrap gap-x-[0.3ch] uppercase">
               {"Talk to the Trovex team.".split(" ").map((word, i) => (
                 <span key={i} className="contents">
                   <span>{word}</span>
                   {i === 1 && (
-                    <div className="-mt-[0.075ch] h-[1.5ch] w-[4ch] shrink-0 bg-cover grayscale" 
-                         style={{ backgroundImage: "url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')" }} />
+                    <div className="-mt-[0.075ch] h-[1.5ch] w-[4ch] shrink-0 bg-cover grayscale"
+                      style={{ backgroundImage: "url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')" }} />
                   )}
                 </span>
               ))}
@@ -287,13 +363,13 @@ export function Landing() {
                 <label className="p3-mono text-rich-carbon/60 uppercase">Message</label>
                 <textarea className="bg-transparent border-none text-rich-carbon outline-none min-h-[80px] text-[1.25rem] resize-none" placeholder="Build with us..." />
               </div>
-              
+
               <div className="flex items-center gap-[12px]">
                 <input type="checkbox" id="privacy" className="size-[16px]" required />
                 <label htmlFor="privacy" className="p3-mono text-rich-carbon/60">I AGREE TO THE PRIVACY POLICY</label>
               </div>
 
-              <WQFButton label="Send message" onClick={() => {}} theme="light" />
+              <WQFButton label="Send message" onClick={() => { }} theme="light" />
             </form>
           </div>
         </div>
@@ -301,89 +377,120 @@ export function Landing() {
 
 
       {/* ════════════════════════════════════════════
-          WQF HEADER refinement (Component 01)
+          Trovex Island Header (Component 01 Refined)
           ════════════════════════════════════════════ */}
-      <header className={`fixed top-0 z-50 w-full transition-all duration-400 ease-[var(--easing)] h-[var(--header-height)] ${headerState.hidden ? '-translate-y-full' : 'translate-y-0'} ${headerState.scrolled ? 'bg-core-black/90 backdrop-blur-[10px]' : 'bg-transparent'}`}>
-        <div className="container h-full flex items-center justify-between">
-          <TrovexLogo scrolled={headerState.scrolled} />
+      <header className={`fixed top-0 left-0 z-50 w-full flex justify-center transition-transform duration-600 ease-[cubic-bezier(0.16,1,0.3,1)] ${headerState.hidden ? '-translate-y-full' : 'translate-y-0'}`}>
+        <div className={`flex items-center transition-all duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] relative
+          ${headerState.scrolled
+            ? 'mt-4 h-[48px] rounded-[8px] px-[12px] py-[4px] bg-white/10 backdrop-blur-[25px] w-fit shadow-2xl grow-0'
+            : 'w-full h-[var(--header-height)] px-[24px] md:px-[40px] bg-transparent grow'
+          }`}>
           
-          <nav className="hidden lg:flex items-center">
-            {['Ethos', 'Portfolio', 'Founders', 'Contact'].map(item => (
-              <a key={item} 
-                href={item === 'Contact' ? '#' : `#${item.toLowerCase()}`} 
-                onClick={item === 'Contact' ? (e) => { e.preventDefault(); setContactOpen(true) } : undefined}
-                className="group/link block relative isolate motion-safe:hover:animate-glitch-hover h-[40px]">
-                <div className="flex h-full items-center px-[20px]">
-                  <div className="bg-neural-fog size-[10px] -translate-x-[24px] rounded-[3px] opacity-0 blur-[20px] transition-all duration-400 ease-[var(--easing)] group-hover/link:-translate-x-[5px] group-hover/link:opacity-100 group-hover/link:blur-[0px]" />
-                  <div className="p2-mono relative isolate flex overflow-hidden transition-transform duration-400 ease-[var(--easing)] -translate-x-[5px] group-hover/link:translate-x-[5px]">
-                    <span className="transition-transform duration-400 ease-[var(--easing)] group-hover/link:-translate-y-full uppercase">{item}</span>
-                    <span className="absolute inset-0 translate-y-full transition-transform duration-400 ease-[var(--easing)] group-hover/link:translate-y-0 uppercase" aria-hidden="true">{item}</span>
-                  </div>
-                </div>
-              </a>
-            ))}
-          </nav>
+          <div className="flex items-center w-full relative">
+            <TrovexLogo scrolled={headerState.scrolled} />
 
-          <button className="lg:hidden p2-mono" onClick={() => setHeaderState(p => ({ ...p, mobileOpen: !p.mobileOpen }))}>MENU</button>
+            <nav className={`hidden lg:flex items-center transition-all duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] ${headerState.scrolled ? 'ml-[12px] gap-[12px]' : 'ml-auto gap-[20px]'}`}>
+              {['Why Trovex', 'Portfolio', 'Insights', 'Contact'].map(item => (
+                <a key={item}
+                  href={item === 'Contact' ? '#' : `#${item.toLowerCase()}`}
+                  onClick={item === 'Contact' ? (e) => { e.preventDefault(); setContactOpen(true) } : undefined}
+                  className="group/link block relative isolate motion-safe:hover:animate-glitch-hover h-[40px]">
+                  <div className={`flex h-full items-center transition-all duration-400 ${headerState.scrolled ? 'px-0' : 'px-[12px]'}`}>
+                    <div className="bg-neural-fog size-[10px] -translate-x-[24px] rounded-[3px] opacity-0 blur-[20px] transition-all duration-400 ease-[var(--easing)] group-hover/link:-translate-x-[5px] group-hover/link:opacity-100 group-hover/link:blur-[0px]" />
+                    <div className="text-[0.69rem] font-[var(--font-mono)] font-medium relative isolate flex overflow-hidden transition-transform duration-400 ease-[var(--easing)] -translate-x-[5px] group-hover/link:translate-x-[5px]">
+                      <span className="transition-transform duration-400 ease-[var(--easing)] group-hover/link:-translate-y-full uppercase">{item}</span>
+                      <span className="absolute inset-0 translate-y-full transition-transform duration-400 ease-[var(--easing)] group-hover/link:translate-y-0 uppercase" aria-hidden="true">{item}</span>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </nav>
+
+            {!headerState.scrolled && (
+              <button className="lg:hidden text-[0.69rem] font-[var(--font-mono)] font-medium ml-auto" onClick={() => setHeaderState(p => ({ ...p, mobileOpen: !p.mobileOpen }))}>MENU</button>
+            )}
+          </div>
         </div>
       </header>
 
       {/* ════════════════════════════════════════════
           WQF HERO (Component 02)
           ════════════════════════════════════════════ */}
-      <section className="relative h-dvh w-full overflow-hidden" style={{ background: 'var(--color-core-black)' }}>
-        <div className="absolute inset-0 z-0 pointer-events-none" 
-          style={{ backgroundImage: "url('/src/assets/hero_landscape.jpg')", backgroundSize: 'cover', backgroundPosition: 'center', mixBlendMode: 'luminosity', filter: 'brightness(0.3)' }} />
-        
-        <div ref={heroRef} className="container relative z-10 h-full flex flex-col py-0">
-          <div className="relative flex-1 flex flex-col justify-between py-[12vh] md:py-[18vh]">
-            
-            {/* Top Left Text Block */}
-            <div className="flex flex-col items-start max-w-full md:max-w-[80vw]">
-              <h1 ref={part1Ref} className="h1-hero text-off-white opacity-0">
-                Building<br />
-                The Exchange<br />
-                That
-              </h1>
-            </div>
+      <section id="hero-trigger" className="relative h-dvh w-full overflow-hidden" style={{ background: 'var(--color-core-black)' }}>
+        <div className="absolute inset-0 z-0 opacity-80">
+          <Antigravity
+            count={1000}
+            magnetRadius={4}
+            ringRadius={4}
+            waveSpeed={0.04}
+            waveAmplitude={0.3}
+            particleSize={0.4}
+            lerpSpeed={0.008}
+            color="#ffffff"
+            autoAnimate={true}
+            particleVariance={1.2}
+            rotationSpeed={0.0}
+            depthFactor={10}
+            pulseSpeed={0.1}
+            particleShape="sphere"
+            fieldStrength={20}
+          />
+        </div>
 
-            {/* Bottom Right Text Block */}
-            <div className="flex flex-col items-end text-right mt-auto">
-              <h1 ref={part2Ref} className="h1-hero text-off-white opacity-0">
-                Pulls Collectibles<br />
-                Out of the dark ages
-              </h1>
-            </div>
-          </div>
+        <div ref={heroRef} className="container relative z-10 h-full flex flex-col justify-center py-0">
+          {/* Collision-Free Modular: 3-Row Bloom and Corner Split Layout */}
+          <h1 className="h1-hero relative w-full h-[60vh] flex items-center justify-center uppercase leading-[0.9] tracking-tighter">
+            <div className="flex flex-col items-center">
+              {/* Row 1: TURNING EVERY */}
+              <div className="flex flex-wrap justify-center gap-[0.3em]">
+                <span id="hero-w-turning" className="hero-word-p1 block translate-y-full opacity-0 pointer-events-none">TURNING</span>
+                <span id="hero-w-every" className="hero-word-p1 block translate-y-full opacity-0 pointer-events-none">EVERY</span>
+              </div>
 
-          {/* Hero Footer Bar */}
-          <div className="w-full mt-auto">
-            <FadeIn delay={2.3}>
-              <div className="w-full h-px bg-white/10 mb-[24px]" />
-            </FadeIn>
-            
-            <div className="flex flex-col md:flex-row justify-between items-end gap-[32px] pb-[32px]">
+              {/* Row 2: COLLECTION INTO */}
+              <div className="flex flex-wrap justify-center gap-[0.3em]">
+                <span id="hero-w-collection" className="hero-word-p1 block translate-y-full opacity-0 pointer-events-none">COLLECTION</span>
+                <span id="hero-w-into" className="hero-word-p2 block translate-y-full opacity-0 pointer-events-none">INTO</span>
+              </div>
+
+              {/* Row 3: LIQUID VALUE */}
+              <div className="flex flex-wrap justify-center gap-[0.3em]">
+                <span id="hero-w-liquid" className="hero-word-p2 block translate-y-full opacity-0 pointer-events-none">LIQUID</span>
+                <span id="hero-w-value" className="hero-word-p2 block translate-y-full opacity-0 pointer-events-none">VALUE</span>
+              </div>
+            </div>
+          </h1>
+
+          {/* Hero Footer Bar (Anchored to bottom) */}
+          <div className="absolute bottom-0 left-0 w-full px-[24px] md:px-[40px] pb-[32px] opacity-0 invisible" id="hero-footer">
+            <div className="w-full h-px bg-white/10 mb-[24px]" />
+            <div className="flex flex-col md:flex-row justify-between items-end gap-[32px]">
               {/* Bottom Left: Contact Us */}
-              <FadeIn delay={2.5} className="w-full md:w-auto">
+              <div className="w-full md:w-auto">
                 <div className="flex items-center gap-[12px]">
                   <WQFButton label="Contact Us" onClick={() => setContactOpen(true)} theme="dark" />
                 </div>
-              </FadeIn>
+              </div>
 
               {/* Bottom Right: Description & Logo */}
               <div className="flex flex-col md:flex-row items-end gap-[24px] md:gap-[40px] max-w-[800px]">
-                <FadeIn delay={2.7} className="flex flex-col items-end">
+                <div className="flex flex-col items-end">
                   <p className="p-hero-footer text-neural-fog text-right max-w-[440px]">
                     Trovex is the reimagined exchange protocol. Deploying institutional alpha to the collectible asset class at scale. We provide the technical bedrock for the next generation.
                   </p>
-                </FadeIn>
-                
-                <FadeIn delay={2.9} className="shrink-0 text-white opacity-40 hover:opacity-100 transition-opacity hidden md:block">
-                   <svg width="60" height="60" viewBox="0 0 65 65" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M39.13 43.55C39.13 41.0371 41.1671 39 43.68 39H47.45C49.9629 39 52 36.9629 52 34.45L52 4.55C52 2.03711 54.0371 0 56.55 0L60.45 0C62.9629 0 65 2.03711 65 4.55001V34.45C65 36.9629 62.9629 39 60.45 39H56.68C54.1671 39 52.13 41.0371 52.13 43.55L52.13 60.45C52.13 62.9629 50.0929 65 47.58 65L43.68 65C41.1671 65 39.13 62.9629 39.13 60.45L39.13 43.55Z" fill="currentColor"/>
-                    <path d="M13.13 43.55C13.13 41.0371 15.1671 39 17.68 39H21.45C23.9629 39 26 36.9629 26 34.45L26 4.55C26 2.03711 28.0371 0 30.55 0L34.45 0C36.9629 0 39 2.03711 39 4.55L39 34.45C39 36.9629 36.9629 39 34.45 39H30.68C28.1671 39 26.13 41.0371 26.13 43.55L26.13 60.45C26.13 62.9629 24.0929 65 21.58 65H17.68C15.1671 65 13.13 62.9629 13.13 60.45L13.13 43.55Z" fill="currentColor"/>
+                </div>
+
+                <div className="shrink-0 text-white opacity-40 hover:opacity-100 transition-opacity hidden md:block">
+                  <svg width="60" height="53" viewBox="0 0 350 310" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g fill="currentColor">
+                      <path d="M 162 70 L 220 70 L 220 70 L 220 268 A 32 32 0 0 1 188 300 L 162 300 A 32 32 0 0 1 130 268 L 130 102 A 32 32 0 0 1 162 70 Z" />
+                      <path d="M 252 10 L 308 10 A 32 32 0 0 1 340 42 L 340 68 A 32 32 0 0 1 308 100 L 220 100 L 220 100 L 220 42 A 32 32 0 0 1 252 10 Z" />
+                      <path d="M 42 10 L 88 10 A 32 32 0 0 1 120 42 L 120 68 A 32 32 0 0 1 88 100 L 42 100 A 32 32 0 0 1 10 68 L 10 42 A 32 32 0 0 1 42 10 Z" />
+                      <path d="M 0 0 C 0 -23.872 5.76 -32 32 -32 H 0 Z" transform="translate(220, 132)" />
+                      <path d="M 0 0 C 0 23.872 -5.76 32 -32 32 H 0 Z" transform="translate(220, 38)" />
+                    </g>
                   </svg>
-                </FadeIn>
+                </div>
               </div>
             </div>
           </div>
@@ -397,7 +504,7 @@ export function Landing() {
       <section id="ethos" className="section-padding bg-rich-carbon">
         <div className="container">
           <SectionHeader label="Our Ethos" heading="Vision matters.\nVelocity wins." description="We are the technical bridge. Precision. Alpha. Infrastructure." />
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-x-[1px] bg-white/[0.05] border border-white/[0.05] mt-[80px]">
             {ethosCards.map((card, i) => (
               <FadeIn key={i} delay={i * 0.1} className="bg-rich-carbon p-[40px] flex flex-col gap-[32px] group">
@@ -421,7 +528,7 @@ export function Landing() {
       <section className="section-padding bg-core-black">
         <div className="container">
           <SectionHeader label="Our Focus" heading="Exponential Technologies" description="Category-defining modules for trillion-dollar efficiency." />
-          
+
           <div className="mt-[80px] flex flex-col border-t border-white/[0.1]">
             {focusAreas.map((area) => (
               <div key={area.id} className="border-b border-white/[0.1] overflow-hidden transition-all duration-500 ease-[var(--easing)]"
@@ -448,22 +555,22 @@ export function Landing() {
           <WQFButton label="Explore All" href="#" theme="dark" />
         </div>
 
-        <div ref={portfolioScrollRef} className="flex gap-[40px] overflow-x-auto no-scrollbar snap-x scroll-px-[40px] px-[40px]" {...useCursor('drag')}>
+        <div ref={portfolioScrollRef} className="flex gap-[40px] overflow-x-auto no-scrollbar snap-x scroll-px-[40px] px-[40px]" {...getCursorHandlers('drag')}>
           {portfolioCases.map((item, i) => (
-             <div key={i} className="shrink-0 w-[80vw] md:w-[600px] snap-center">
-                <div className="aspect-[16/10] bg-rich-carbon mb-[24px] overflow-hidden relative group" {...useCursor('view')}>
-                   <div className="absolute inset-0 bg-infrared/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-                   <CornerAccents color="rgba(255,255,255,0.05)" />
-                   <div className="absolute bottom-[20px] left-[20px] p3-mono opacity-0 group-hover:opacity-100 transition-opacity">0{i+1} / 0{portfolioCases.length}</div>
+            <div key={i} className="shrink-0 w-[80vw] md:w-[600px] snap-center">
+              <div className="aspect-[16/10] bg-rich-carbon mb-[24px] overflow-hidden relative group" {...getCursorHandlers('view')}>
+                <div className="absolute inset-0 bg-infrared/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <CornerAccents color="rgba(255,255,255,0.05)" />
+                <div className="absolute bottom-[20px] left-[20px] p3-mono opacity-0 group-hover:opacity-100 transition-opacity">0{i + 1} / 0{portfolioCases.length}</div>
+              </div>
+              <div className="flex justify-between items-end border-b border-white/[0.1] pb-[16px]">
+                <div>
+                  <h3 className="h3-card">{item.name}</h3>
+                  <p className="p2-mono text-pulse-ash mt-[4px]">{item.tag}</p>
                 </div>
-                <div className="flex justify-between items-end border-b border-white/[0.1] pb-[16px]">
-                  <div>
-                    <h3 className="h3-card">{item.name}</h3>
-                    <p className="p2-mono text-pulse-ash mt-[4px]">{item.tag}</p>
-                  </div>
-                  <a href="#" className="p3-mono no-underline text-neural-fog hover:text-white transition-colors">{item.site} →</a>
-                </div>
-             </div>
+                <a href="#" className="p3-mono no-underline text-neural-fog hover:text-white transition-colors">{item.site} →</a>
+              </div>
+            </div>
           ))}
         </div>
       </section>
@@ -474,12 +581,12 @@ export function Landing() {
       <section className="section-padding bg-core-black">
         <div className="container">
           <SectionHeader label="Our Leadership" heading="The Engineering Lead" description="Spotting trends before they become market consensus." />
-          
+
           <div className="grid md:grid-cols-3 gap-[2px] bg-white/[0.05] mt-[80px]">
             {leadershipTeam.map((member, i) => (
               <div key={i} className="bg-core-black p-[40px] group transition-all duration-500 hover:bg-rich-carbon relative">
                 <div className="aspect-[3/4] bg-rich-carbon mb-[32px] group-hover:scale-[0.98] transition-transform duration-500 overflow-hidden relative">
-                   <CornerAccents color="rgba(255,255,255,0.03)" />
+                  <CornerAccents color="rgba(255,255,255,0.03)" />
                 </div>
                 <h3 className="h3-card mb-[4px]">{member.name}</h3>
                 <p className="p2-mono text-pulse-ash mb-[20px]">{member.role}</p>
@@ -496,7 +603,7 @@ export function Landing() {
       <section className="section-padding bg-rich-carbon">
         <div className="container">
           <SectionHeader label="For Investors" heading="Invest in Tomorrow" description="Partner with category creators at the edge of what's possible." />
-          
+
           <div className="grid md:grid-cols-3 gap-[2px] bg-white/[0.05] mt-[80px]">
             {investorCards.map((card, i) => (
               <div key={i} className="bg-rich-carbon p-[40px] flex flex-col gap-[32px] group">
@@ -540,8 +647,8 @@ export function Landing() {
         <div className="container text-center flex flex-col items-center gap-[60px] relative z-10">
           <h2 className="h1-hero">Own what's next.</h2>
           <div className="flex flex-col gap-[20px] max-w-[700px]">
-             <p className="p-body text-off-white">Breakthrough founders. Pre-market investors. Transformative partners.</p>
-             <p className="p-body text-pulse-ash">Reach out, and let's move.</p>
+            <p className="p-body text-off-white">Breakthrough founders. Pre-market investors. Transformative partners.</p>
+            <p className="p-body text-pulse-ash">Reach out, and let's move.</p>
           </div>
           <WQFButton label="Contact Us" onClick={() => setContactOpen(true)} theme="dark" />
         </div>
@@ -556,22 +663,22 @@ export function Landing() {
             <div className="flex flex-col gap-[40px]">
               <span className="font-display font-medium text-[2rem] tracking-[0.2em] text-infrared select-none">TROVEX</span>
               <nav className="flex flex-wrap gap-x-[40px] gap-y-[20px]">
-                {['Why WQF', 'Portfolio', 'Team', 'Insights', 'Contact'].map(l => (
-                   <a key={l} href="#" onClick={l === 'Contact' ? (e) => { e.preventDefault(); setContactOpen(true) } : undefined} className="p2-mono no-underline text-pulse-ash hover:text-white transition-colors">{l}</a>
+                {['Why Trovex', 'Portfolio', 'Team', 'Insights', 'Contact'].map(l => (
+                  <a key={l} href="#" onClick={l === 'Contact' ? (e) => { e.preventDefault(); setContactOpen(true) } : undefined} className="p2-mono no-underline text-pulse-ash hover:text-white transition-colors">{l}</a>
                 ))}
               </nav>
             </div>
-            
+
             <div className="flex flex-col gap-[20px] text-left md:text-right">
-              <p className="p3-mono text-pulse-ash">From WorldQuant: Ventures | University</p>
+              <p className="p3-mono text-pulse-ash">Trovex: Assets | Infrastructure</p>
               <nav className="flex flex-wrap gap-x-[20px] gap-y-[10px] md:justify-end">
                 {['Whistleblower', 'Privacy', 'Terms', 'Cookie'].map(l => (
-                   <a key={l} href="#" className="p3-mono no-underline text-pulse-ash hover:text-white transition-colors">{l}</a>
+                  <a key={l} href="#" className="p3-mono no-underline text-pulse-ash hover:text-white transition-colors">{l}</a>
                 ))}
               </nav>
               <div className="mt-[40px]">
                 <p className="p3-mono text-pulse-ash">Site by Series Eight Variant</p>
-                <p className="p3-mono text-pulse-ash">© {new Date().getFullYear()} WorldQuant Foundry (Trovex Infrastructure)</p>
+                <p className="p3-mono text-pulse-ash">© {new Date().getFullYear()} Trovex Infrastructure</p>
               </div>
             </div>
           </div>
