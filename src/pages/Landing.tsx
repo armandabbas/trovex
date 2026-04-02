@@ -247,59 +247,35 @@ export function Landing() {
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ delay: 1.0 })
-      
-      const p1Words = gsap.utils.toArray('.hero-word-p1')
-      const p2Words = gsap.utils.toArray('.hero-word-p2')
-      const allWords = [...p1Words, ...p2Words]
 
-      // Phase 1: Symmetric 3-Row Bloom (Collision-Free)
-      tl.to(allWords, {
-        y: 0,
-        opacity: 1,
-        duration: 2.0,
-        ease: 'power3.out',
-        stagger: 0.1
+      // Phase 1: Total Reset Bloom (Centered for v15)
+      const leftGroup = ['#hero-w-turning', '#hero-w-collection', '#hero-w-liquid']
+      const rightGroup = ['#hero-w-every', '#hero-w-into', '#hero-w-value']
+
+      // Reset to master center for split-origin Bloom
+      gsap.set([...leftGroup, ...rightGroup], { left: "50%", y: "100%", opacity: 0 })
+
+      tl.to(leftGroup, {
+        xPercent: -100, x: "-0.2em", y: 0, opacity: 1, duration: 2.0, ease: 'power3.out', stagger: 0.1
       })
+      tl.to(rightGroup, {
+        xPercent: 0, x: "0.2em", y: 0, opacity: 1, duration: 2.0, ease: 'power3.out', stagger: 0.1
+      }, "<")
 
-      // Phase 3: Precision Modular Glide (Desktop Only)
+      // Phase 3: Absolute Precision Split v15 (Screenshot Parity)
       if (window.innerWidth > 1024) {
         const glideDuration = 3.5
         const glideEase = 'expo.inOut'
 
-        // Cluster 1 (Left Group): TURNING EVERY & COLLECTION -> Flush Left
-        tl.to(['#hero-w-turning', '#hero-w-every'], {
-          x: "-24vw",
-          xPercent: 0,
-          y: "-18vh",
-          duration: glideDuration,
-          ease: glideEase
-        }, "+=1.0")
+        // TL Cluster: Synchronized to 8vw (Flush-Left Screenshot Parity)
+        tl.to('#hero-w-turning', { left: "8vw", xPercent: 0, x: 0, y: "-26vh", duration: glideDuration, ease: glideEase }, "+=1.0")
+        tl.to('#hero-w-every', { left: "27vw", xPercent: 0, x: 0, y: "-26vh", duration: glideDuration, ease: glideEase }, "<")
+        tl.to('#hero-w-collection', { left: "8vw", xPercent: 0, x: 0, y: "-23.5vh", duration: glideDuration, ease: glideEase }, "<")
 
-        tl.to('#hero-w-collection', {
-          x: "-24vw",
-          xPercent: 0,
-          y: "-15.5vh", // Stacked Flush-Left under Line 1
-          duration: glideDuration,
-          ease: glideEase
-        }, "<")
-
-        // Cluster 2 (Right Group): INTO & LIQUID VALUE -> Flush Right
-        // We align their RIGHT EDGES (xPercent: -100) at 24vw from center
-        tl.to('#hero-w-into', {
-          x: "24vw",
-          xPercent: -100,
-          y: "19.5vh",
-          duration: glideDuration,
-          ease: glideEase
-        }, "<")
-
-        tl.to(['#hero-w-liquid', '#hero-w-value'], {
-          x: "24vw",
-          xPercent: -100,
-          y: "22vh", // Stacked Flush-Right under INTO
-          duration: glideDuration,
-          ease: glideEase
-        }, "<")
+        // BR Cluster: Synchronized to 54vw (Balanced Flush-Left)
+        tl.to('#hero-w-into', { left: "54vw", xPercent: 0, x: 0, y: "18vh", duration: glideDuration, ease: glideEase }, "<")
+        tl.to('#hero-w-liquid', { left: "54vw", xPercent: 0, x: 0, y: "20.5vh", duration: glideDuration, ease: glideEase }, "<")
+        tl.to('#hero-w-value', { left: "82vw", xPercent: 0, x: 0, y: "20.5vh", duration: glideDuration, ease: glideEase }, "<")
       }
 
       // Phase 4: Reveal Footer
@@ -437,27 +413,19 @@ export function Landing() {
           />
         </div>
 
-        <div ref={heroRef} className="container relative z-10 h-full flex flex-col justify-center py-0">
-          {/* Collision-Free Modular: 3-Row Bloom and Corner Split Layout */}
+        <div ref={heroRef} className="relative z-10 w-full h-full flex flex-col justify-center py-0">
+          {/* Absolute Anchor Refactor v15: Screenshot Match Final */}
           <h1 className="h1-hero relative w-full h-[60vh] flex items-center justify-center uppercase leading-[0.9] tracking-tighter">
-            <div className="flex flex-col items-center">
-              {/* Row 1: TURNING EVERY */}
-              <div className="flex flex-wrap justify-center gap-[0.3em]">
-                <span id="hero-w-turning" className="hero-word-p1 block translate-y-full opacity-0 pointer-events-none">TURNING</span>
-                <span id="hero-w-every" className="hero-word-p1 block translate-y-full opacity-0 pointer-events-none">EVERY</span>
-              </div>
+            <div className="relative w-full h-full flex items-center justify-center">
+              {/* Every word is anchored to left-1/2 for synchronized alignment math */}
+              <span id="hero-w-turning" className="hero-word-p1 absolute top-[calc(50%-1.1em)] left-1/2 translate-y-full opacity-0 pointer-events-none">TURNING</span>
+              <span id="hero-w-every" className="hero-word-p1 absolute top-[calc(50%-1.1em)] left-1/2 translate-y-full opacity-0 pointer-events-none">EVERY</span>
 
-              {/* Row 2: COLLECTION INTO */}
-              <div className="flex flex-wrap justify-center gap-[0.3em]">
-                <span id="hero-w-collection" className="hero-word-p1 block translate-y-full opacity-0 pointer-events-none">COLLECTION</span>
-                <span id="hero-w-into" className="hero-word-p2 block translate-y-full opacity-0 pointer-events-none">INTO</span>
-              </div>
+              <span id="hero-w-collection" className="hero-word-p1 absolute top-[50%] left-1/2 translate-y-full opacity-0 pointer-events-none">COLLECTION</span>
+              <span id="hero-w-into" className="hero-word-p2 absolute top-[50%] left-1/2 translate-y-full opacity-0 pointer-events-none">INTO</span>
 
-              {/* Row 3: LIQUID VALUE */}
-              <div className="flex flex-wrap justify-center gap-[0.3em]">
-                <span id="hero-w-liquid" className="hero-word-p2 block translate-y-full opacity-0 pointer-events-none">LIQUID</span>
-                <span id="hero-w-value" className="hero-word-p2 block translate-y-full opacity-0 pointer-events-none">VALUE</span>
-              </div>
+              <span id="hero-w-liquid" className="hero-word-p2 absolute top-[calc(50%+1.1em)] left-1/2 translate-y-full opacity-0 pointer-events-none">LIQUID</span>
+              <span id="hero-w-value" className="hero-word-p2 absolute top-[calc(50%+1.1em)] left-1/2 translate-y-full opacity-0 pointer-events-none">VALUE</span>
             </div>
           </h1>
 
