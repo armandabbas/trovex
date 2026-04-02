@@ -37,12 +37,6 @@ function TrovexLogo({ scrolled }: { scrolled: boolean }) {
   )
 }
 
-/* ─── Header Navigation Links ─── */
-// (Skipping to the header section for link update)
-
-// In the header component:
-// <div className="p3-mono relative isolate flex ...">
-
 /* ─── Corner Accents (WQF SVG Pattern) ─── */
 function CornerAccents({ color = 'currentColor', size = 30 }: { color?: string; size?: number }) {
   return (
@@ -65,7 +59,7 @@ function CornerAccents({ color = 'currentColor', size = 30 }: { color?: string; 
 
 
 /* ─── WQF Button ─── */
-function WQFButton({ label, href, theme = 'dark', onClick }: { label: string; href?: string; theme?: 'dark' | 'light'; onClick?: () => void }) {
+function WQFButton({ label, href, theme = 'dark', onClick, active }: { label: string; href?: string; theme?: 'dark' | 'light'; onClick?: () => void; active?: boolean }) {
   const textColor = theme === 'light' ? 'var(--color-rich-carbon)' : 'var(--color-off-white)'
   const accentColor = theme === 'light' ? 'rgba(17,17,17,0.4)' : 'rgba(231,231,231,0.4)'
 
@@ -81,7 +75,7 @@ function WQFButton({ label, href, theme = 'dark', onClick }: { label: string; hr
           <span className="absolute inset-0 flex transition-transform duration-400 translate-y-full group-hover/button:translate-y-0" aria-hidden="true" style={{ transitionTimingFunction: 'var(--easing)' }}>{label}</span>
         </div>
       </div>
-      <div className="absolute inset-0 pointer-events-none">
+      <div className="absolute inset-0 pointer-events-none opacity-100 transition-opacity">
         <CornerAccents color={accentColor} size={14} />
       </div>
     </div>
@@ -229,6 +223,7 @@ const investorCards = [
 export function Landing() {
   const [headerState, setHeaderState] = useState({ scrolled: false, hidden: false, mobileOpen: false })
   const [contactOpen, setContactOpen] = useState(false)
+  const [isNavHovered, setIsNavHovered] = useState(false)
   const [expandedFocus, setExpandedFocus] = useState<string | null>(null)
   const lastScrollY = useRef(0)
   const heroRef = useRef<HTMLDivElement>(null)
@@ -388,9 +383,11 @@ export function Landing() {
                   href={item === 'Contact' ? '#' : `#${item.toLowerCase()}`}
                   onClick={item === 'Contact' ? (e) => { e.preventDefault(); setContactOpen(true) } : undefined}
                   className="group/link block relative isolate motion-safe:hover:animate-glitch-hover h-[40px]">
-                  <div className={`flex h-full items-center transition-all duration-400 ${headerState.scrolled ? 'px-0' : 'px-[12px]'}`}>
-                    <div className="bg-neural-fog size-[10px] -translate-x-[24px] rounded-[3px] opacity-0 blur-[20px] transition-all duration-400 ease-[var(--easing)] group-hover/link:-translate-x-[5px] group-hover/link:opacity-100 group-hover/link:blur-[0px]" />
-                    <div className="text-[0.69rem] font-[var(--font-mono)] font-medium relative isolate flex overflow-hidden transition-transform duration-400 ease-[var(--easing)] -translate-x-[5px] group-hover/link:translate-x-[5px]">
+                  <div className={`relative h-full flex items-center transition-all duration-400 ${headerState.scrolled ? 'px-0' : 'px-[16px]'}`}>
+                    <div className="absolute inset-0 pointer-events-none opacity-0 group-hover/link:opacity-100 transition-opacity duration-400">
+                      <CornerAccents size={10} color="rgba(255,255,255,0.4)" />
+                    </div>
+                    <div className="text-[0.69rem] font-[var(--font-mono)] font-medium relative isolate flex overflow-hidden">
                       <span className="transition-transform duration-400 ease-[var(--easing)] group-hover/link:-translate-y-full uppercase">{item}</span>
                       <span className="absolute inset-0 translate-y-full transition-transform duration-400 ease-[var(--easing)] group-hover/link:translate-y-0 uppercase" aria-hidden="true">{item}</span>
                     </div>
@@ -412,7 +409,7 @@ export function Landing() {
       <section id="hero-trigger" className="relative h-dvh w-full overflow-hidden" style={{ background: 'var(--color-core-black)' }}>
         <div className="absolute inset-0 z-0 opacity-80">
           <Antigravity
-            count={5000}
+            count={10000}
             magnetRadius={1}
             ringRadius={2}
             waveSpeed={0.04}
@@ -453,7 +450,7 @@ export function Landing() {
               {/* Bottom Left: Contact Us */}
               <div className="w-full md:w-auto">
                 <div className="flex items-center gap-[12px]">
-                  <WQFButton label="Contact Us" onClick={() => setContactOpen(true)} theme="dark" />
+                  <WQFButton label="Contact Us" onClick={() => setContactOpen(true)} theme="dark" active={isNavHovered} />
                 </div>
               </div>
 
